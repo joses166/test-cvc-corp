@@ -1,6 +1,7 @@
 package br.com.cvc.api.services.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -25,20 +26,34 @@ public class FinancialTransferServiceImpl implements FinancialTransferService {
 	@Override
 	public FinancialTransfer savingSchedule(FinancialTransferDTO dto) {
 		FinancialTransfer financialTransfer = new FinancialTransfer();
+		
+		financialTransfer.setDestinyAccount(dto.getDestinyAccount());
+		financialTransfer.setOriginAccount(dto.getOriginAccount());
+		financialTransfer.setTransferDate(dto.getTransferDate());
+		financialTransfer.setTransferValue(dto.getTransferValue());
 		financialTransfer.setSchedulingDate(new Date());
 		financialTransfer.setTax(this.calculate(financialTransfer));
+
 		return this.repository.save(financialTransfer);
 	}
 
+	@Override
+	public List<FinancialTransfer> listAllRecords() {
+		return this.repository.findAll();
+	}
+
 	private Float calculate(FinancialTransfer transfer) {
+		Long transferDay = Utils.gettingDayToDate(transfer.getTransferDate());
+		Long schedulingDay = Utils.gettingDayToDate(transfer.getSchedulingDate());
+		
 		try {
-			if (transfer.getTransferDate().before(transfer.getSchedulingDate())) 
+			if (transferDay < schedulingDay) 
 				throw new RuntimeException("Please inform a valid date.");
-			else if (transfer.getTransferDate() == transfer.getSchedulingDate())
+			else if (transferDay.equals(schedulingDay))
 				return this.calculateService.calcular(transfer, new TodayTax());
-			else if (transfer.getTransferDate() == Utils.calculateDate(10) && transfer.getTransferDate().before(Utils.calculateDate(10)))
+			else if (transferDay <= Utils.gettingDayToDate(10))
 				return this.calculateService.calcular(transfer, new TenDaysTax());
-			else if (transfer.getTransferDate().after(Utils.calculateDate(10)))
+			else if (transferDay > Utils.gettingDayToDate(10))
 				return this.calculateService.calcular(transfer, new MoreTenDaysTax(new CalculateServiceImpl()));
 			else
 				throw new RuntimeException("");
@@ -46,5 +61,5 @@ public class FinancialTransferServiceImpl implements FinancialTransferService {
 			throw new RuntimeException("");
 		}
 	}
-
+	
 }

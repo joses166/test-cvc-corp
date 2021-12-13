@@ -4,7 +4,7 @@ public class TodayTax implements Tax {
 
 	@Override
 	public Float calculatingTax(FinancialTransfer transfer) {
-		return 3 + (transfer.getTransferValue() * 3 / 100);
+		return (((transfer.getTransferValue() * 3) / 100) + 3);
 	}
 
 }

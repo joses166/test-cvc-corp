@@ -1,7 +1,5 @@
 package br.com.cvc.api.entities;
 
-import java.util.Date;
-
 import br.com.cvc.api.services.CalculateService;
 import br.com.cvc.api.utils.Utils;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +15,15 @@ public class MoreTenDaysTax implements Tax {
 	}
 	
 	private Float calcularDataTransferencia(FinancialTransfer transfer) {
-		Date transferDate = transfer.getTransferDate();
+		Long transferDay = Utils.gettingDayToDate(transfer.getTransferDate());
 		
-		if (transferDate == Utils.calculateDate(20) && Utils.calculatingDate(transferDate, 20))
+		if (transferDay <= Utils.gettingDayToDate(20))
 			return this.calculateService.calcular(transfer, new TwentyDaysTax());
-		else if (transferDate == Utils.calculateDate(30) && Utils.calculatingDate(transferDate, 30))
+		else if (transferDay <= Utils.gettingDayToDate(30))
 			return this.calculateService.calcular(transfer, new ThirtyDaysTax());
-		else if (transferDate == Utils.calculateDate(40) && Utils.calculatingDate(transferDate, 40))
+		else if (transferDay <= Utils.gettingDayToDate(40))
 			return this.calculateService.calcular(transfer, new FortyDaysTax());
-		else if (transferDate.after(Utils.calculateDate(40)) && transfer.getTransferValue() > 100000)
+		else if (transferDay > Utils.gettingDayToDate(40) && transfer.getTransferValue() > 100000)
 			return this.calculateService.calcular(transfer, new MoreFortyDaysTax());
 		else
 			throw new RuntimeException("Invalid value");
