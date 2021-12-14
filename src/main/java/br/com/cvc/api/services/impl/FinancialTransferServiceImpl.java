@@ -56,9 +56,9 @@ public class FinancialTransferServiceImpl implements FinancialTransferService {
 			else if (transferDay > Utils.gettingDayToDate(10))
 				return this.calculateService.calcular(transfer, new MoreTenDaysTax(new CalculateServiceImpl()));
 			else
-				throw new RuntimeException("");
+				throw new RuntimeException("The information is not valid.");
 		} catch (Exception e) {
-			throw new RuntimeException("");
+			throw new RuntimeException("Ocurred an error in processing.");
 		}
 	}
 	
