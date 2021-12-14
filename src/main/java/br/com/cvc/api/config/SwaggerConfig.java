@@ -30,7 +30,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                         .version("1.0.0")
                         .title("API CVC Test")
-                        .description("Application to do a transaction financial.")
+                        .description("Application to do a financial transfer.")
                         .contact(contact())
                         .build()
                 ;

@@ -1,5 +1,7 @@
-package br.com.cvc.api.entities;
+package br.com.cvc.api.services.impl;
 
+import br.com.cvc.api.entities.FinancialTransfer;
+import br.com.cvc.api.services.Tax;
 import br.com.cvc.api.utils.Utils;
 
 public class TenDaysTax implements Tax {

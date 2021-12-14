@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.cvc.api.dto.FinancialTransferDTO;
 import br.com.cvc.api.entities.FinancialTransfer;
-import br.com.cvc.api.entities.MoreTenDaysTax;
-import br.com.cvc.api.entities.TenDaysTax;
-import br.com.cvc.api.entities.TodayTax;
 import br.com.cvc.api.repositories.FinancialTransferRepository;
 import br.com.cvc.api.services.CalculateService;
 import br.com.cvc.api.services.FinancialTransferService;
@@ -50,11 +47,11 @@ public class FinancialTransferServiceImpl implements FinancialTransferService {
 			if (transferDay < schedulingDay) 
 				throw new RuntimeException("Please inform a valid date.");
 			else if (transferDay.equals(schedulingDay))
-				return this.calculateService.calcular(transfer, new TodayTax());
+				return this.calculateService.calculate(transfer, new TodayTax());
 			else if (transferDay <= Utils.gettingDayToDate(10))
-				return this.calculateService.calcular(transfer, new TenDaysTax());
+				return this.calculateService.calculate(transfer, new TenDaysTax());
 			else if (transferDay > Utils.gettingDayToDate(10))
-				return this.calculateService.calcular(transfer, new MoreTenDaysTax(new CalculateServiceImpl()));
+				return this.calculateService.calculate(transfer, new MoreTenDaysTax(new CalculateServiceImpl()));
 			else
 				throw new RuntimeException("The information is not valid.");
 		} catch (Exception e) {

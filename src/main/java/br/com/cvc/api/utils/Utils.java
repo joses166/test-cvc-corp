@@ -5,26 +5,37 @@ import java.util.Date;
 
 public class Utils {
 
-	public static Date calculateDate(Integer dias) {
+	/**
+	 * Method responsible for returning the date calculated from the current date plus the days passed by the parameter
+	 * @param days
+	 * @return
+	 */
+	public static Date calculateDate(Integer days) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.DATE, dias);
+		cal.add(Calendar.DATE, days);
 		return cal.getTime();
 	}
 	
-	public static boolean calculatingDate(Date transferDate, Integer days) {
-		return transferDate.before(calculateDate(days));
-	}
-
-	public static Long gettingDayToDate(Integer dias) {
+	/**
+	 * Method responsible for returning the time in milliseconds of a date calculated from the current date plus the days passed by the parameter
+	 * @param days
+	 * @return
+	 */
+	public static Long gettingDayToDate(Integer days) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.DATE, dias);
+		cal.add(Calendar.DATE, days);
 		return Utils.gettingDayToDate(cal.getTime());
 	}
 	
-	public static Long gettingDayToDate(Date data) {
-		return data.getTime() / (1000 * 60 * 60 * 24);		
+	/**
+	 * Method responsible for returning the time in milliseconds of a date passed by the parameter
+	 * @param date
+	 * @return
+	 */
+	public static Long gettingDayToDate(Date date) {
+		return date.getTime() / (1000 * 60 * 60 * 24);		
 	}
 
 }

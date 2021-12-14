@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Date;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,7 +59,7 @@ public class FinancialTransferServiceTest {
 				.build();
     
         Mockito.when( repository.save( Mockito.any() ) ).thenReturn( savedTransfer );
-        Mockito.when( calculateService.calcular( Mockito.any(), Mockito.any() ) ).thenReturn( savedTransfer.getTax() );
+        Mockito.when( calculateService.calculate( Mockito.any(), Mockito.any() ) ).thenReturn( savedTransfer.getTax() );
         
         // Execução
         savedTransfer = this.service.savingSchedule( transfer );
@@ -67,6 +68,36 @@ public class FinancialTransferServiceTest {
         assertThat(savedTransfer.getDestinyAccount()).isEqualTo(transfer.getDestinyAccount());
     }
     
-    // Criar método no service test para erro em processo de cálculo
+    @Test
+    @DisplayName("In this test, i have an error to create a financial transfer.")
+    public void errorWhenCreateAFinancialTransfer() {
+        // Cenário
+    	FinancialTransferDTO transfer = FinancialTransferDTO
+				.builder()
+				.destinyAccount("090909")
+				.originAccount("090901")
+				.transferDate(new Date())
+				.transferValue(1500.0f)
+				.build();
+    	FinancialTransfer savedTransfer = FinancialTransfer
+				.builder()
+				.id(1L)
+				.destinyAccount("090909")
+				.originAccount("090901")
+				.schedulingDate(new Date())
+				.tax(10.0f)
+				.transferDate(new Date())
+				.transferValue(1500.0f)
+				.build();
+    
+        Mockito.when( repository.save( Mockito.any() ) ).thenReturn( savedTransfer );
+        Mockito.when( calculateService.calculate( Mockito.any(), Mockito.any() ) ).thenThrow(RuntimeException.class);
+        
+        // Execução
+        Throwable throwable = Assertions.catchThrowable(() -> this.service.savingSchedule( transfer ));
+        
+        // Verificação
+        assertThat( throwable ).isInstanceOf( RuntimeException.class ).hasMessage("Ocurred an error in processing.");
+    }
 	
 }
