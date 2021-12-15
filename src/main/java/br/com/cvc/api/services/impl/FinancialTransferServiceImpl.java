@@ -55,7 +55,7 @@ public class FinancialTransferServiceImpl implements FinancialTransferService {
 			else
 				throw new RuntimeException("The information is not valid.");
 		} catch (Exception e) {
-			throw new RuntimeException("Ocurred an error in processing.");
+			throw new RuntimeException("Error: " + e.getMessage());
 		}
 	}
 	
