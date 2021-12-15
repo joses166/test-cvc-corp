@@ -1,0 +1,71 @@
+{
+	"info": {
+		"_postman_id": "187f273f-9ca7-40e3-bc4d-cf6b2a05ff1b",
+		"name": "Teste CVC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Criar uma transferência financeira",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"destinyAccount\": \"ABC000\",\r\n  \"originAccount\": \"ABC001\",\r\n  \"transferDate\": \"30/12/2021\",\r\n  \"transferValue\": 50000.30\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/financial/scheduling",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"financial",
+						"scheduling"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar as transferências financeiras",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"destinyAccount\": \"ABC000\",\r\n  \"originAccount\": \"ABC001\",\r\n  \"transferDate\": \"30/12/2021\",\r\n  \"transferValue\": 50000.30\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/financial",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"financial"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
